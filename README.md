@@ -14,8 +14,8 @@ Before running this application, ensure you have the following installed:
 
 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/landmarks-visiteds.git
-cd landmarks-visiteds
+git clone https://github.com/TugceDogru/landmarks-app.git
+cd landmarks-app
 ```
 
 
