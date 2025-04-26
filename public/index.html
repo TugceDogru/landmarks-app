@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landmarks App</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+
+    <header>
+        <h1>Landmarks App</h1>
+    </header>
+
+    <div id="controls">
+        <button id="addNotesBtn">Add Notes</button>
+        <button id="createPlanBtn">Create Visiting Plan</button>
+        <button id="visitedLandmarksBtn">Visited Landmarks</button>
+    </div>
+
+    <div id="map"></div>
+
+    <section id="landmarks-section">
+        <h2>Selected Landmarks</h2>
+        <ul id="landmarkList"></ul>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Modal Title</h2>
+            <form id="form">
+                <!-- Fields for adding notes -->
+                <div id="noteFields">
+                    <input type="text" id="name" placeholder="Landmark Name" required />
+                    <input type="text" id="description" placeholder="Description" />
+                    <input type="text" id="category" placeholder="Category" />
+                </div>
+
+                <!-- Field for visiting plan -->
+                <div id="planFields" style="display:none;">
+                    <input type="text" id="visitor_name" placeholder="Visitor Name" />
+                    <div id="landmarkNotesList"></div> <!-- NEW for landmark-specific notes -->
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
