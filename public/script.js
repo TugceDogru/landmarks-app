@@ -121,10 +121,18 @@ document
 function setFormSubmitForNotes() {
   form.onsubmit = async function (e) {
     e.preventDefault();
+
+    // Check if required fields are filled
     const name = document.getElementById("name").value;
     const description = document.getElementById("description").value;
     const category = document.getElementById("category").value;
 
+    if (!name) {
+      alert("Please fill in the Landmark Name.");
+      return;
+    }
+
+    // Proceed with the form submission if everything is valid
     try {
       for (const landmark of landmarks) {
         const data = {
@@ -175,31 +183,45 @@ function updateLandmarkNote(index, value) {
 function setFormSubmitForPlan() {
   form.onsubmit = async function (e) {
     e.preventDefault();
-    const visitor_name =
-      document.getElementById("visitor_name").value || "Anonymous";
+    const visitor_name = document.getElementById("visitor_name").value || "Anonymous";
 
     try {
-      const landmarkRes = await fetch("http://localhost:5000/api/landmarks");
-      const allLandmarks = await landmarkRes.json();
-
+      // Save landmarks to the database first
+      const landmarkIds = [];
       for (const landmark of landmarks) {
-        const matchedLandmark = allLandmarks.find(
-          (lm) =>
-            lm.latitude.toFixed(6) == landmark.latitude &&
-            lm.longitude.toFixed(6) == landmark.longitude
-        );
-        if (matchedLandmark) {
-          await fetch("http://localhost:5000/api/visited", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              landmark_id: matchedLandmark.id,
-              visitor_name,
-              note: landmark.note,
-            }),
-          });
-        }
+        const data = {
+          name: landmark.name,
+          latitude: landmark.latitude,
+          longitude: landmark.longitude,
+          description: landmark.description,
+          category: landmark.category,
+        };
+
+        // Save each landmark to the database
+        const res = await fetch("http://localhost:5000/api/landmarks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const savedLandmark = await res.json();
+        landmarkIds.push(savedLandmark.id); // Store saved landmark IDs
       }
+
+      // Now create a visiting plan for each landmark
+      for (const [index, landmark] of landmarks.entries()) {
+        const landmarkId = landmarkIds[index]; // Use the saved landmark ID
+        await fetch("http://localhost:5000/api/visited", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            landmark_id: landmarkId,
+            visitor_name,
+            note: landmark.note,
+          }),
+        });
+      }
+
       alert("Visiting plan created successfully!");
       clearLandmarks();
       closeModal();
@@ -209,6 +231,7 @@ function setFormSubmitForPlan() {
     }
   };
 }
+
 
 // Clear landmarks and markers
 function clearLandmarks() {

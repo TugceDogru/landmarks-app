@@ -33,18 +33,18 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2 id="modalTitle">Modal Title</h2>
-            <form id="form">
+            <form id="form" novalidate>
                 <!-- Fields for adding notes -->
                 <div id="noteFields">
-                    <input type="text" id="name" placeholder="Landmark Name" required />
-                    <input type="text" id="description" placeholder="Description" />
-                    <input type="text" id="category" placeholder="Category" />
+                    <input type="text" id="name" name="name" placeholder="Landmark Name" required />
+                    <input type="text" id="description" name="description" placeholder="Description" />
+                    <input type="text" id="category" name="category" placeholder="Category" />
                 </div>
 
                 <!-- Field for visiting plan -->
                 <div id="planFields" style="display:none;">
-                    <input type="text" id="visitor_name" placeholder="Visitor Name" />
-                    <div id="landmarkNotesList"></div> <!-- NEW for landmark-specific notes -->
+                    <input type="text" id="visitor_name" name="visitor_name" placeholder="Visitor Name" />
+                    <div id="landmarkNotesList"></div>
                 </div>
 
                 <button type="submit">Submit</button>
